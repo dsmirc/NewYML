@@ -40,6 +40,9 @@ jobs:
           git clone --single-branch --branch android https://github.com/nillerusr/source-engine.git && mkdir directory23 && cd directory23
           git clone --single-branch --branch android-fixes https://github.com/nillerusr/source-engine.git && mkdir directory24 && cd directory24
           git clone https://github.com/nillerusr/source-engine.git && mkdir directory25 && cd directory25
+
+      - name: Setup branches
+        run: tar -czvf qemu.tar.gz ./source-engine
           
 
 
@@ -48,5 +51,5 @@ jobs:
         uses: actions/upload-artifact@v4.3.0
         with:
           name: zip
-          path: . #this will 100% fuck up github servers but who cares lol, fuck them
+          path: qemu.tar.gz #this will 100% fuck up github servers but who cares lol, fuck them
 
