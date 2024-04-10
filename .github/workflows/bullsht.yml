@@ -1,0 +1,51 @@
+name: Setup shet
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      
+      - name: Setup branches
+        run: |
+          git clone --single-branch --branch 64bits https://github.com/nillerusr/source-engine.git && mkdir directory1 && cd directory1 #fuck this shitty bullshit lol
+          git clone --single-branch --branch ToGLES3 https://github.com/nillerusr/source-engine.git && mkdir directory2 && cd directory2
+          git clone --single-branch --branch aswarm https://github.com/nillerusr/source-engine.git && mkdir directory3 && cd directory3
+          git clone --single-branch --branch bullshit https://github.com/nillerusr/source-engine.git && mkdir directory4 && cd directory4
+          git clone --single-branch --branch dedicated https://github.com/nillerusr/source-engine.git && mkdir directory5 && cd directory5
+          git clone --single-branch --branch dedicated-build-fix https://github.com/nillerusr/source-engine.git && mkdir directory6 && cd directory6
+          git clone --single-branch --branch gameui https://github.com/nillerusr/source-engine.git && mkdir directory7 && cd directory7
+          git clone --single-branch --branch ios https://github.com/nillerusr/source-engine.git && mkdir directory8 && cd directory8
+          git clone --single-branch --branch mathlib-optimize https://github.com/nillerusr/source-engine.git && mkdir directory9 && cd directory9
+          git clone --single-branch --branch misalign-fixes https://github.com/nillerusr/source-engine.git && mkdir directory10 && cd directory10
+          git clone --single-branch --branch musl-port https://github.com/nillerusr/source-engine.git && mkdir directory11 && cd directory11
+          git clone --single-branch --branch new-sdk https://github.com/nillerusr/source-engine.git && mkdir directory12 && cd directory12
+          git clone --single-branch --branch optimization https://github.com/nillerusr/source-engine.git && mkdir directory13 && cd directory13
+          git clone --single-branch --branch physx https://github.com/nillerusr/source-engine.git && mkdir directory14 && cd directory14
+          git clone --single-branch --branch sanitize https://github.com/nillerusr/source-engine.git && mkdir directory15 && cd directory15
+          git clone --single-branch --branch serverbrowser https://github.com/nillerusr/source-engine.git && mkdir directory16 && cd directory16
+          git clone --single-branch --branch shaderapigl https://github.com/nillerusr/source-engine.git && mkdir directory17 && cd directory17
+          git clone --single-branch --branch sourcevr https://github.com/nillerusr/source-engine.git && mkdir directory18 && cd directory18
+          git clone --single-branch --branch ssdk2013 https://github.com/nillerusr/source-engine.git && mkdir directory19 && cd directory19
+          git clone --single-branch --branch vpc-parser https://github.com/nillerusr/source-engine.git && mkdir directory20 && cd directory20
+          git clone --single-branch --branch win64 https://github.com/nillerusr/source-engine.git && mkdir directory21 && cd directory21
+          git clone --single-branch --branch windows https://github.com/nillerusr/source-engine.git && mkdir directory22 && cd directory22
+          git clone --single-branch --branch android https://github.com/nillerusr/source-engine.git && mkdir directory23 && cd directory23
+          git clone --single-branch --branch android-fixes https://github.com/nillerusr/source-engine.git && mkdir directory24 && cd directory24
+          git clone https://github.com/nillerusr/source-engine.git && mkdir directory25 && cd directory25
+
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: zip
+          path: . #this will 100% fuck up github servers but who cares lol, fuck them
+
