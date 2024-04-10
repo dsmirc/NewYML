@@ -15,7 +15,7 @@ jobs:
       
       - name: Setup branches
         run: |
-          git clone --single-branch --branch 64bits https://github.com/nillerusr/source-engine.git && ls && mkdir directory1 && cd directory1 #fuck this shitty bullshit lol
+          git clone --single-branch --branch 64bits https://github.com/nillerusr/source-engine.git && cd source-engine && mkdir directory1 && cd directory1 #fuck this shitty bullshit lol
           git clone --single-branch --branch ToGLES3 https://github.com/nillerusr/source-engine.git && mkdir directory2 && cd directory2
           git clone --single-branch --branch aswarm https://github.com/nillerusr/source-engine.git && mkdir directory3 && cd directory3
           git clone --single-branch --branch bullshit https://github.com/nillerusr/source-engine.git && mkdir directory4 && cd directory4
