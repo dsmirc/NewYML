@@ -1,0 +1,33 @@
+name: Setup Branches
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: git
+        run: git clone https://github.com/nillerusr/source-engine.git
+      
+      - name: Setup branches
+        run: |
+          cp sh.sh source-engine/
+          cd source-engine
+          chmod +x sh.sh    
+          ./sh.sh
+          git branch
+
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: zip
+          path: .
+
