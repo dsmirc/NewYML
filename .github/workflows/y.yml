@@ -35,19 +35,18 @@ jobs:
         } else {
           echo " Could not extract tunnel URL from logs."
         }
+      shell: powershell
 
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Commit and Push Tunnel Log
-      run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
-        git add log.txt
-        git commit -m "files"
-        git push origin HEAD:${{ github.ref_name }}     
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      shell: powershell
+    - name: Upload Artifacts
+      if: always()
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: downloads
+        path: .
+
+  
 
 
