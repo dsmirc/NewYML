@@ -1,9 +1,7 @@
 name: Setup shet
 
-on:
-  push:
-    branches:
-      - main 
+on: workflow_dispatch
+
 
 jobs:
   setup:
