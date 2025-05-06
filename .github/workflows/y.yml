@@ -1,6 +1,6 @@
 name: Cloudflare RDP Access
 
-on: [push, workflow_dispatch]
+on: workflow_dispatch
 
 jobs:
   rdp-access:
@@ -25,7 +25,7 @@ jobs:
         Start-Sleep -Seconds 10
         $result = Invoke-RestMethod -Uri "http://127.0.0.1:4040/api/tunnels"
         $rdpUrl = $result.tunnels[0].public_url
-        echo "🖥️ RDP URL: $rdpUrl"
-        echo "🔑 USER: runneradmin"
-        echo "🔐 PASSWORD: stored in \`secrets.Password\`"
+        echo 'RDP URL: ' + $rdpUrl
+        echo 'USER: runneradmin'
+        echo 'PASSWORD: stored in `secrets.Password`'
       shell: powershell
