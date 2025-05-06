@@ -36,17 +36,18 @@ jobs:
           echo " Could not extract tunnel URL from logs."
         }
 
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
     - name: Commit and Push Tunnel Log
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-        git pull
-        Copy-Item log.txt $env:GITHUB_WORKSPACE
         git add log.txt
-        git commit -m "add files"
-        git push origin HEAD:${{ github.ref_name }}
+        git commit -m "files"
+        git push origin HEAD:${{ github.ref_name }}     
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: powershell
+
 
