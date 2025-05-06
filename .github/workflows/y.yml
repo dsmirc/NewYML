@@ -1,0 +1,31 @@
+name: Cloudflare RDP Access
+
+on: [push, workflow_dispatch]
+
+jobs:
+  rdp-access:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Download cloudflared
+      run: |
+        Invoke-WebRequest https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe -OutFile cloudflared.exe
+
+    - name: Enable Remote Desktop and Set Password
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication" -Value 1
+        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "${{ secrets.Password }}" -Force)
+
+    - name: Start Cloudflared Tunnel (TCP on port 3389)
+      run: |
+        Start-Process -FilePath ".\cloudflared.exe" -ArgumentList "tunnel", "--url", "tcp://localhost:3389", "--logfile", "log.txt" -NoNewWindow
+        Start-Sleep -Seconds 10
+        $result = Invoke-RestMethod -Uri "http://127.0.0.1:4040/api/tunnels"
+        $rdpUrl = $result.tunnels[0].public_url
+        echo "🖥️ RDP URL: $rdpUrl"
+        echo "🔑 USER: runneradmin"
+        echo "🔐 PASSWORD: stored in \`secrets.Password\`"
+      shell: powershell
