@@ -23,9 +23,17 @@ jobs:
       run: |
         Start-Process -FilePath ".\cloudflared.exe" -ArgumentList "tunnel", "--url", "tcp://localhost:3389", "--logfile", "log.txt" -NoNewWindow
         Start-Sleep -Seconds 10
-        $result = Invoke-RestMethod -Uri "http://127.0.0.1:4040/api/tunnels"
-        $rdpUrl = $result.tunnels[0].public_url
-        echo 'RDP URL: ' + $rdpUrl
-        echo 'USER: runneradmin'
-        echo 'PASSWORD: stored in `secrets.Password`'
+        $log = Get-Content log.txt
+        $rdpLine = $log | Where-Object { $_ -match "trycloudflare.com" } | Select-Object -First 1
+        if ($rdpLine -match "https://(.*).trycloudflare.com") {
+          $hostname = $matches[1] + ".trycloudflare.com"
+          echo '=============================='
+          echo " RDP Tunnel: $hostname"
+          echo ' USER: runneradmin'
+          echo ' PASSWORD: from secrets.Password'
+          echo '=============================='
+        } else {
+          echo " Could not extract tunnel URL from logs."
+        }
       shell: powershell
+
