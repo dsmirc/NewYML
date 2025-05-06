@@ -35,5 +35,18 @@ jobs:
         } else {
           echo " Could not extract tunnel URL from logs."
         }
+
+    - name: Commit and Push Tunnel Log
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git pull
+        Copy-Item log.txt $env:GITHUB_WORKSPACE
+        git add log.txt
+        git commit -m "Add cloudflared tunnel log [skip ci]" || echo "No changes to commit"
+        git push origin HEAD:${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       shell: powershell
 
