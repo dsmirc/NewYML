@@ -43,7 +43,7 @@ jobs:
         git pull
         Copy-Item log.txt $env:GITHUB_WORKSPACE
         git add log.txt
-        git commit -m "Add cloudflared tunnel log [skip ci]" || echo "No changes to commit"
+        git commit -m "add files"
         git push origin HEAD:${{ github.ref_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
