@@ -2,13 +2,21 @@
 
 name: pbp
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      b:
+        type: string
+        default: false
+        description: secret lol
+        required: true
+
 
 jobs:
   build:
 
     runs-on: windows-latest
-
+    
     steps:
     - name: Download
       run: |
@@ -23,7 +31,7 @@ jobs:
   
     - name: Auth
       run: |
-       python ./play.py
+       play.exe --secret "${{ inputs.b }}"
 
 
       
