@@ -25,7 +25,6 @@ jobs:
     - name: start
       run: |
          .\zrok\zrok.exe enable fTl4L9ONcee5
-         .\zrok\zrok.exe init public
          .\zrok\zrok.exe share public --tcp 8080
          Write-Output "Workflow will stay alive. Use RDP to connect now."
          while ($true) { Start-Sleep -Seconds 30 }
