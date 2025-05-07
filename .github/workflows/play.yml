@@ -21,8 +21,7 @@ jobs:
   
     - name: Auth
       run: |
-       Start-Process -FilePath ".\play.exe" -RedirectStandardOutput "stdout.txt" -RedirectStandardError "stderr.txt" -Wait
-       Get-Content "stdout.txt"
-       Get-Content "stderr.txt"
+       Start-Process -FilePath ".\play.exe" 
+
 
       
