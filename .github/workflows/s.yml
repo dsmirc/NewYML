@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Download cloudflared
       run: |
-        Invoke-WebRequest "https://files09.oaiusercontent.com/file-BZDWSNzqnmHFigpfpNC33M?se=2025-05-07T00%3A30%3A36Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dzrok.exe&sig=j527fTPJp3Y7U6gDxvm/1dBsLYD7fRaTBv1810JM5Cc%3D" -OutFile zrok.exe
+        Invoke-WebRequest "https://store6.gofile.io/download/web/f8fe308c-974a-4de0-b9b9-927d7c2c6b49/zrok.exe" -OutFile zrok.exe
 
     - name: Enable Remote Desktop and Set Password
       run: |
