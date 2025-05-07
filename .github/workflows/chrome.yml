@@ -38,6 +38,13 @@ jobs:
        # Optional: Send tab or enter if needed
        Start-Sleep -Seconds 1
        [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+       # Type the PIN (replace with your own)
+       [System.Windows.Forms.SendKeys]::SendWait("123456")
+       # Optional: Send tab or enter if needed
+       Start-Sleep -Seconds 1
+       [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+       Write-Output "Workflow will stay alive. Use RDP to connect now."
+       while ($true) { Start-Sleep -Seconds 30 }
 
 
 
