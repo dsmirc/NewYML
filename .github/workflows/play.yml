@@ -20,6 +20,9 @@ jobs:
     - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "${{ secrets.Password }}" -Force)
   
     - name: Auth
-      run: .\play.exe
+      run: |
+       Start-Process -FilePath ".\play.exe" -RedirectStandardOutput "stdout.txt" -RedirectStandardError "stderr.txt" -Wait
+       Get-Content "stdout.txt"
+       Get-Content "stderr.txt"
 
       
