@@ -31,7 +31,7 @@ jobs:
   
     - name: Auth
       run: |
-       play.exe --secret "${{ inputs.b }}"
+       .\play.exe --secret "${{ inputs.b }}"
 
 
       
