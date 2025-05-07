@@ -1,0 +1,57 @@
+# you may not want to enter your personal info here...
+
+name: crd
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Download
+      run: Invoke-WebRequest https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi -OutFile c.msi
+    - name: Extract
+      run: Start-Process msiexec -ArgumentList "/i `"c.msi`"","/qn"
+    - name: Enable TS
+      run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+    - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+    - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+    - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "${{ secrets.Password }}" -Force)
+    - name: Create Tunnel
+      run: |
+       # Start CRD process
+       Start-Process -FilePath "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
+       -ArgumentList '--code="4/0Ab_5qll-QEDsdU5rEiDgfDv44afRt6mYdQurlr5TTG9-Y7qugt0Os_dIKaI3amcMUaztTQ" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=MyPC' `
+       -WindowStyle Normal
+
+       # Give it time to open the PIN prompt
+       Start-Sleep -Seconds 6
+
+       # Load .NET Forms for sending keys
+       Add-Type -AssemblyName System.Windows.Forms
+
+       # Type the PIN (replace with your own)
+       [System.Windows.Forms.SendKeys]::SendWait("123456")
+
+       # Optional: Send tab or enter if needed
+       Start-Sleep -Seconds 1
+       [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+
+
+
+    - name: Upload Artifacts
+      if: always()
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: downloads
+        path: C:\Users\runneradmin\Downloads\
+
+      
+    - name: ReUpload Artifacts
+      if: cancelled()  
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: downloads
+        path: C:\Users\runneradmin\Downloads\
