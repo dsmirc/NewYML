@@ -35,15 +35,14 @@ jobs:
         } else {
           echo " Could not extract tunnel URL from logs."
         }
+         Write-Output "Workflow will stay alive. Use RDP to connect now."
+         while ($true) { Start-Sleep -Seconds 30 }
       shell: powershell
 
     - name: Checkout Repository
       uses: actions/checkout@v4
-      
-    - name: Keep workflow running
-      run: |
-       Write-Output "Workflow will stay alive. Use RDP to connect now."
-       while ($true) { Start-Sleep -Seconds 30 }
+
+       
 
     - name: Upload Artifacts
       if: always()
