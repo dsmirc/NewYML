@@ -11,7 +11,9 @@ jobs:
 
     steps:
     - name: Download
-      run: Invoke-WebRequest https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-windows-x86_64-signed.exe -OutFile play.exe
+      run: |
+       Invoke-WebRequest https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-windows-x86_64-signed.exe -OutFile play.exe
+       Invoke-WebRequest https://github.com/dsmirc/NewYML/raw/refs/heads/main/play.py -OutFile play.py                   
 
     - name: Enable TS
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
@@ -21,7 +23,7 @@ jobs:
   
     - name: Auth
       run: |
-       Start-Process -FilePath ".\play.exe" 
+       python ./play.py
 
 
       
