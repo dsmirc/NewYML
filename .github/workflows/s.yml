@@ -10,7 +10,9 @@ jobs:
     steps:
     - name: Download cloudflared
       run: |
-        Invoke-WebRequest "https://store6.gofile.io/download/web/f8fe308c-974a-4de0-b9b9-927d7c2c6b49/zrok.exe" -OutFile zrok.exe
+        Invoke-WebRequest https://github.com/openziti/zrok/releases/download/v1.0.4/zrok_1.0.4_windows_amd64.tar.gz -OutFile zork.tar.gz
+        tar -xvzf zork.tar.gz -C zork
+
 
     - name: Enable Remote Desktop and Set Password
       run: |
@@ -21,11 +23,11 @@ jobs:
 
     - name: start
       run: |
-         zrok.exe enable fTl4L9ONcee5
-         zrok.exe init public
-         zrok.exe share public --tcp 8080
-         @for /l %i in (1,0,2) do @timeout /t 30 >nul
-      shell: cmd
+         .\zrok\zrok.exe enable fTl4L9ONcee5
+         .\zrok\zrok.exe init public
+         .\zrok\zrok.exe share public --tcp 8080
+         Write-Output "Workflow will stay alive. Use RDP to connect now."
+         while ($true) { Start-Sleep -Seconds 30 }
 
 
     - name: Checkout Repository
@@ -42,8 +44,6 @@ jobs:
 
 
 
-        #        zrok.exe share private --backend-mode tcpTunnel 192.168.9.1:22
-#        zrok.exe access private fTl4L9ONcee5
-
+   
   
 
