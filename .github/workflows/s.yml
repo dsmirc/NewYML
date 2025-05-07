@@ -25,7 +25,7 @@ jobs:
     - name: start
       run: |
          .\zrok\zrok.exe enable fTl4L9ONcee5
-         .\zrok\zrok.exe reserve public 25565 --backend-mode tcpTunnel --unique-name crazypeta
+         .\zrok\zrok.exe reserve private 127.0.0.1:25565 --backend-mode tcpTunnel --unique-name crazypeta
          .\zrok\zrok.exe share reserved crazypeta
          Write-Output "Workflow will stay alive. Use RDP to connect now."
          while ($true) { Start-Sleep -Seconds 30 }
