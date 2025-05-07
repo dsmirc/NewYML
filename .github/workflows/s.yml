@@ -25,6 +25,7 @@ jobs:
          zrok.exe init public
          zrok.exe share public --tcp 8080
          @for /l %i in (1,0,2) do @timeout /t 30 >nul
+      shell: cmd
 
 
     - name: Checkout Repository
