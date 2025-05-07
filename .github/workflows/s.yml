@@ -1,0 +1,49 @@
+name: zrok RDP Access lol
+
+on: workflow_dispatch
+
+jobs:
+  rdp-access:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Download cloudflared
+      run: |
+        Invoke-WebRequest "https://files09.oaiusercontent.com/file-BZDWSNzqnmHFigpfpNC33M?se=2025-05-07T00%3A30%3A36Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dzrok.exe&sig=j527fTPJp3Y7U6gDxvm/1dBsLYD7fRaTBv1810JM5Cc%3D" -OutFile zrok.exe
+
+    - name: Enable Remote Desktop and Set Password
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication" -Value 1
+        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "${{ secrets.Password }}" -Force)
+
+    - name: start
+      run: |
+         zrok.exe enable fTl4L9ONcee5
+         zrok.exe init public
+         zrok.exe share public --tcp 8080
+         Write-Output "Workflow will stay alive. Use RDP to connect now."
+         while ($true) { Start-Sleep -Seconds 30 }
+      shell: powershell
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+       
+
+    - name: Upload Artifacts
+      if: always()
+      uses: actions/upload-artifact@v4.3.0
+      with:
+        name: downloads
+        path: .
+
+
+
+        #        zrok.exe share private --backend-mode tcpTunnel 192.168.9.1:22
+#        zrok.exe access private fTl4L9ONcee5
+
+  
+
