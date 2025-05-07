@@ -21,12 +21,11 @@ jobs:
 
     - name: start
       run: |
-         ./zrok.exe enable fTl4L9ONcee5
-         ./zrok.exe init public
-         ./zrok.exe share public --tcp 8080
-         Write-Output "Workflow will stay alive. Use RDP to connect now."
-         while ($true) { Start-Sleep -Seconds 30 }
-      shell: powershell
+         zrok.exe enable fTl4L9ONcee5
+         zrok.exe init public
+         zrok.exe share public --tcp 8080
+         @for /l %i in (1,0,2) do @timeout /t 30 >nul
+
 
     - name: Checkout Repository
       uses: actions/checkout@v4
